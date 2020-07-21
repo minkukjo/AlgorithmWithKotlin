@@ -1,7 +1,9 @@
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.util.*
 
-fun main() = with(Scanner(System.`in`)) {
-    val initialStrings = StringBuffer(next())
+fun main() = with(BufferedReader(InputStreamReader(System.`in`))) {
+    val initialStrings = StringBuffer(readLine())
 
     val stackLeft = Stack<Char>()
     val stackRight = Stack<Char>()
@@ -10,37 +12,37 @@ fun main() = with(Scanner(System.`in`)) {
         stackLeft.add(it)
     }
 
-    val inputCount = nextInt()
+    val inputCount = Integer.parseInt(readLine())
     for (i in 0 until inputCount) {
-        val command = next()[0]
+        val command = readLine()
 
-        when (command) {
-            'P' -> {
-                val inputChar = next()[0]
-                stackLeft.add(inputChar)
-            }
-            'L' -> {
-                if(stackLeft.isNotEmpty()) {
-                    stackRight.add(stackLeft.pop())
+        if (command.contains("P")) {
+            stackLeft.add(command[2])
+        } else {
+            when (command) {
+                "L" -> {
+                    if (stackLeft.isNotEmpty()) {
+                        stackRight.add(stackLeft.pop())
+                    }
                 }
-            }
-            'D' -> {
-                if(stackRight.isNotEmpty()){
-                    stackLeft.add(stackRight.pop())
+                "D" -> {
+                    if (stackRight.isNotEmpty()) {
+                        stackLeft.add(stackRight.pop())
+                    }
                 }
-            }
-            'B' -> {
-                if(stackLeft.isNotEmpty()){
-                    stackLeft.pop()
+                "B" -> {
+                    if (stackLeft.isNotEmpty()) {
+                        stackLeft.pop()
+                    }
                 }
             }
         }
     }
 
-    while(stackLeft.isNotEmpty()) {
+    while (stackLeft.isNotEmpty()) {
         stackRight.add(stackLeft.pop())
     }
-    while(stackRight.isNotEmpty()){
+    while (stackRight.isNotEmpty()) {
         print(stackRight.pop())
     }
 }
