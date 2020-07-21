@@ -1,6 +1,3 @@
-package N9012
-
-import java.io.File
 import java.util.*
 
 fun isVPS(parenThesis: String): Boolean {
