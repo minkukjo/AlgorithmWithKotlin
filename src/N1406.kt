@@ -1,38 +1,46 @@
 import java.util.*
 
 fun main() = with(Scanner(System.`in`)) {
-    val initialStrings = StringBuffer("0" + next() + "1")
-    var cursor = initialStrings.length - 1
+    val initialStrings = StringBuffer(next())
+
+    val stackLeft = Stack<Char>()
+    val stackRight = Stack<Char>()
+
+    initialStrings.forEach {
+        stackLeft.add(it)
+    }
+
     val inputCount = nextInt()
     for (i in 0 until inputCount) {
-        val command = next()
+        val command = next()[0]
 
-        when (command[0]) {
+        when (command) {
             'P' -> {
-                val inputChar = next()
-                cursor += 1
-                initialStrings.insert(cursor, inputChar)
+                val inputChar = next()[0]
+                stackLeft.add(inputChar)
             }
             'L' -> {
-                if (initialStrings[cursor] != '0') {
-                    cursor -= 2
+                if(stackLeft.isNotEmpty()) {
+                    stackRight.add(stackLeft.pop())
                 }
             }
             'D' -> {
-                if (initialStrings[cursor] != '1') {
-                    cursor += 2
+                if(stackRight.isNotEmpty()){
+                    stackLeft.add(stackRight.pop())
                 }
             }
             'B' -> {
-                if (initialStrings[cursor] != '0' && initialStrings[cursor - 1] != '0') {
-                    cursor -= 1
-                    initialStrings.deleteCharAt(cursor)
+                if(stackLeft.isNotEmpty()){
+                    stackLeft.pop()
                 }
             }
         }
     }
 
-    initialStrings.deleteCharAt(0)
-    initialStrings.deleteCharAt(initialStrings.length - 1)
-    println(initialStrings)
+    while(stackLeft.isNotEmpty()) {
+        stackRight.add(stackLeft.pop())
+    }
+    while(stackRight.isNotEmpty()){
+        print(stackRight.pop())
+    }
 }
